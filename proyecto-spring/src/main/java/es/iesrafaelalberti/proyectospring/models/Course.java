@@ -1,16 +1,19 @@
 package es.iesrafaelalberti.proyectospring.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
-@Entity @Getter @Setter
+@Entity @Getter @Setter @NoArgsConstructor
+@Table(name = "courses")
 public class Course {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String author;
@@ -23,17 +26,14 @@ public class Course {
     private String subarea;
     private String level;
     private String date;
-
-    //private Integer number;
-    //private Double size;
-    //private Integer capacity;
-
-    //@JsonBackReference
-    //@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    //private Set<Prisoner> prisoners = new HashSet<>();
-
+    @JsonBackReference
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<CoursePurchase> coursePurchases = new HashSet<>();
+    /*
+    @OneToMany(mappedBy = "course")
+    Set<CoursePurchase> coursePurchases;
     public Course() {}
-
+*/
     public Course(String title, String author, Double price, Number hours, Number minutes, String language, String subtitle, String area, String subarea, String level, String date) {
         //Set<Prisoner> prisoners
         this.title = title;
@@ -47,6 +47,18 @@ public class Course {
         this.subarea = subarea;
         this.level = level;
         this.date = date;
-        //this.prisoners = prisoners;
+    }
+
+    public Course(CourseCreateDTO newCourse) {
+        this.title      = newCourse.getTitle();
+        this.author     = newCourse.getAuthor();
+        this.price      = newCourse.getPrice();
+        this.hours      = newCourse.getHours();
+        this.minutes    = newCourse.getMinutes();
+        this.language   = newCourse.getLanguage();
+        this.subtitle   = newCourse.getSubtitle();
+        this.area       = newCourse.getArea();
+        this.subarea    = newCourse.getSubarea();
+        this.level      = newCourse.getLevel();
     }
 }

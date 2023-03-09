@@ -2,12 +2,13 @@ package es.iesrafaelalberti.proyectospring.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
-@Entity @Getter @Setter
+@Entity @Getter @Setter @NoArgsConstructor
 public class Prisoner {
     @Id
     @GeneratedValue
@@ -21,10 +22,6 @@ public class Prisoner {
     @ManyToOne
     @JoinColumn()
     private Cell cell;
-
-    // default constructor
-    public Prisoner() { }
-
     public Prisoner(String name, Integer age, @NotNull Integer yearsLeft, Cell cell) {
         this.name = name;
         this.age = age;
