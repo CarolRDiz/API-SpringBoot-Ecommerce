@@ -26,10 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProyectoSpringApplicationTests {
 	@Autowired
 	MockMvc mvc;
-	@Autowired
-	PrisonerRepository prisonerRepository;
-	@Autowired
-	CellRepository cellRepository;
+
 	@Autowired
 	CourseRepository courseRepository;
 	@Autowired
@@ -38,11 +35,14 @@ class ProyectoSpringApplicationTests {
 	CoursePurchaseRepository coursePurchaseRepository;
 	@Autowired
 	ValuationRepository valuationRepository;
+	/*
 	@Test
 	void contextLoads() {
 		assert cellRepository.count() == 3;
 		assert prisonerRepository.count() == 8;
 	}
+
+	 */
 	/*
 	*
 	* COURSE
@@ -238,37 +238,5 @@ class ProyectoSpringApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 		assert coursePurchaseRepository.count() == countCoursePurchases-1;
-	}
-	@Test
-	void listTest() throws Exception {
-		mvc.perform(get("/prisoners/").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].name").value("bob"))
-				.andExpect(jsonPath("$[0].age").value(19))
-				.andExpect(jsonPath("$[0].yearsLeft").value(23));
-	}
-	@Test
-	void detailTest() throws Exception {
-		// get test prisoner (method get on url /prisoners/1/)
-		mvc.perform(get("/prisoners/1/").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.name").value("bob"))
-				.andExpect(jsonPath("$.age").value(19))
-				.andExpect(jsonPath("$.yearsLeft").value(23));
-		// test result
-	}
-
-	@Test
-	void deleteTest() throws Exception {
-		long countPrisoners = prisonerRepository.count();
-		// method delete on url /prisoners/1/
-		// test result
-		// test number of prisoners is correct (-1)
-		mvc.perform(delete("/prisoners/1/").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-		assert prisonerRepository.count() == countPrisoners-1;
 	}
 }

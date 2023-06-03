@@ -15,7 +15,7 @@ public class ImageService {
     @Autowired
     private ImageRepository imageRepo;
 
-    public String addImage(String title, MultipartFile file) throws IOException {
+    public Long addImage(String title, MultipartFile file) throws IOException {
         Image image = new Image(title);
         image.setImage(
                 new Binary(BsonBinarySubType.BINARY, file.getBytes()));
@@ -23,7 +23,7 @@ public class ImageService {
         return image.getId();
     }
 
-    public Image getImage(String id) {
+    public Image getImage(Long id) {
         return imageRepo.findById(id).get();
     }
 }

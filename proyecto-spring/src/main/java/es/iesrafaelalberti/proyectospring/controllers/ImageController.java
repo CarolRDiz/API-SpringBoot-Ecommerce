@@ -15,14 +15,14 @@ public class ImageController {
     ImageService imageService;
 
     @PostMapping("/images/add")
-    public String addPhoto(@RequestParam("title") String title,
+    public Long addPhoto(@RequestParam("title") String title,
                            @RequestParam("image") MultipartFile image)
             throws IOException {
         return imageService.addImage(title, image);
     }
 
     @GetMapping("/images/{id}")
-    public String getPhoto(@PathVariable String id) {
+    public String getPhoto(@PathVariable Long id) {
         Image image = imageService.getImage(id);
         return "<img src=\"data:image/jpeg;base64, " + Base64.getEncoder().encodeToString(image.getImage().getData()) + "\">";
     }

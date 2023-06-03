@@ -7,28 +7,38 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity @Getter @Setter @NoArgsConstructor
-@Table(name = "users")
-public class Users {
-
+@Document(collection = "users")
+@Getter @Setter @NoArgsConstructor
+public class Users extends ElvisEntity{
+    @Transient
+    public static final String SEQUENCE_NAME = "users_sequence";
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String name;
     private String surname;
     private String email;
     private String password;
+    private LocalDateTime created;
+
+    /*
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+     */
+    private Image image;
+
+/*
     @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+ */
     private Set<CoursePurchase> coursePurchases = new HashSet<>();
-    /*
-    @OneToMany(mappedBy = "users")
-    Set<CoursePurchase> purchases;
-*/
+
+
     public Users(String name, String surname, String email, String password) {
         this.name       = name;
         this.surname    = surname;

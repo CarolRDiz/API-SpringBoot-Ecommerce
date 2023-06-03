@@ -1,6 +1,5 @@
 package es.iesrafaelalberti.proyectospring.factories;
 import com.github.javafaker.Faker;
-import es.iesrafaelalberti.proyectospring.models.Cell;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import org.springframework.stereotype.Component;
 

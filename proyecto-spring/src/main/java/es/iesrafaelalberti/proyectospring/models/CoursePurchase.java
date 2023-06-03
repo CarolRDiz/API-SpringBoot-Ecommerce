@@ -8,32 +8,41 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
-@Entity @Getter @Setter @NoArgsConstructor
-@Table(name = "course_purchase")
+import java.util.HashSet;
+import java.util.Set;
+
+ @Getter @Setter @NoArgsConstructor
+@Document(collection = "course_purchases")
 public class CoursePurchase {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @ManyToOne
+     @Id
+     private long id;
+    /*@ManyToOne
     @JoinColumn()
     private Course course;
+    */
+    private Set<Course> courses;
 
+    /*
     @ManyToOne
     @JoinColumn()
+     */
     private Users user;
     //@Column(nullable = false, updatable = false)
     @Temporal(TemporalType.DATE)
     @CreatedDate
-    private Date purchasedAt;
-    public CoursePurchase(Course course, Users user) {
-        this.course = course;
+    private LocalDateTime purchasedAt;
+
+    public CoursePurchase(Set<Course> courses, Users user) {
+        this.courses = courses;
         this.user = user;
     }
     public CoursePurchase(CoursePurchaseCreateDTO newCoursePurchase) {
-        this.course             = newCoursePurchase.getCourse();
+        this.courses             = newCoursePurchase.getCourses();
         this.user               = newCoursePurchase.getUser();
     }
 }

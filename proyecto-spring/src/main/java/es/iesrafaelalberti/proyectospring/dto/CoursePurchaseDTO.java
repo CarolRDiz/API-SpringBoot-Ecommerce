@@ -11,7 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Setter
@@ -19,12 +22,12 @@ import java.util.Date;
 @NoArgsConstructor @Getter
 public class CoursePurchaseDTO implements Serializable {
     private Long id;
-    private Course course;
+    private Set<Course> courses;
     private Users user;
-    private Date purchasedAt;
+    private LocalDateTime purchasedAt;
     public CoursePurchaseDTO(CoursePurchase coursePurchase) {
         this.id                 = coursePurchase.getId();
-        this.course             = coursePurchase.getCourse();
+        this.courses             = coursePurchase.getCourses();
         this.user               = coursePurchase.getUser();
         this.purchasedAt        = coursePurchase.getPurchasedAt();
     }

@@ -6,12 +6,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashSet;
 import java.util.Set;
-@Entity @Getter @Setter @NoArgsConstructor
-@Table(name = "courses")
-public class Course {
+@Getter @Setter @NoArgsConstructor
+@Document(collection = "courses")
+public class Course extends ElvisEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,14 +27,20 @@ public class Course {
     private String subarea;
     private String level;
     private String date;
+
+    /*
     @JsonBackReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<CoursePurchase> coursePurchases = new HashSet<>();
+    */
+    @ManyToMany
+    private Set<CoursePurchase> orders;
+
     /*
-    @OneToMany(mappedBy = "course")
-    Set<CoursePurchase> coursePurchases;
-    public Course() {}
-*/
+        @OneToMany(mappedBy = "course")
+        Set<CoursePurchase> coursePurchases;
+        public Course() {}
+    */
     public Course(String title, String author, Double price, Number hours, Number minutes, String language, String subtitle, String area, String subarea, String level, String date) {
         //Set<Prisoner> prisoners
         this.title = title;

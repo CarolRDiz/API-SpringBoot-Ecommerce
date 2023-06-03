@@ -1,9 +1,7 @@
 package es.iesrafaelalberti.proyectospring.controllers;
-import es.iesrafaelalberti.proyectospring.dto.CoursePurchaseCreateDTO;
-import es.iesrafaelalberti.proyectospring.dto.CoursePurchaseDTO;
 import es.iesrafaelalberti.proyectospring.dto.ValuationCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.ValuationDTO;
-import es.iesrafaelalberti.proyectospring.models.Valuation;
+import es.iesrafaelalberti.proyectospring.models.UserReview;
 import es.iesrafaelalberti.proyectospring.repositories.ValuationRepository;
 import es.iesrafaelalberti.proyectospring.services.ValuationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +33,16 @@ public class ValuationController {
     }
     @DeleteMapping("/valuations/{id}/")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
-        Optional<Valuation> valuation = valuationRepository.findById(id);
+        Optional<UserReview> valuation = valuationRepository.findById(id);
         if(valuation.isPresent()) valuationRepository.delete(valuation.get());
         return new ResponseEntity<>(valuation.isPresent(), HttpStatus.OK);
     }
     @PutMapping("/valuations/{id}/")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Valuation valuation) {
-        Optional<Valuation> oldValuation = valuationRepository.findById(id);
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody UserReview userReview) {
+        Optional<UserReview> oldValuation = valuationRepository.findById(id);
         if(oldValuation.isPresent()) {
-            valuationRepository.save(valuation);
-            return new ResponseEntity<>(valuation, HttpStatus.OK);
+            valuationRepository.save(userReview);
+            return new ResponseEntity<>(userReview, HttpStatus.OK);
         }
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }

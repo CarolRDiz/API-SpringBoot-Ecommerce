@@ -2,7 +2,7 @@ package es.iesrafaelalberti.proyectospring.factories;
 import com.github.javafaker.Faker;
 import es.iesrafaelalberti.proyectospring.models.Course;
 import es.iesrafaelalberti.proyectospring.models.Users;
-import es.iesrafaelalberti.proyectospring.models.Valuation;
+import es.iesrafaelalberti.proyectospring.models.UserReview;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,10 +27,10 @@ public class ValuationFactory {
         }
     }
 
-    public List<Valuation> get(int number, List<Course> courses, List<Users> users ) {
+    public List<UserReview> get(int number, List<Course> courses, List<Users> users ) {
         Random rand = new Random();
         return IntStream.range(0, number)
-                .mapToObj(x -> new Valuation(
+                .mapToObj(x -> new UserReview(
                         courses.get(rand.nextInt(courses.size())),
                         users.get(rand.nextInt(users.size())),
                         esFaker.lorem().sentence(10),
