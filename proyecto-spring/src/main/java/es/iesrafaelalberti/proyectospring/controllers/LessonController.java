@@ -50,6 +50,7 @@ public class LessonController {
                 lessonService.createLesson(lessonCreateDTO),
                 HttpStatus.OK);
     }
+    /*
     @RequestMapping(path = "/lessons/update", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<Object> update(@ModelAttribute LessonCreateDTO lessonCreateDTO) throws IOException {
         Optional<Lesson> oldLesson = lessonRepository.findById(lessonCreateDTO.getId());
@@ -59,6 +60,7 @@ public class LessonController {
         }
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
+    */
     @DeleteMapping("/lessons/{id}/")
 
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {

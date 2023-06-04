@@ -13,6 +13,6 @@ public interface LessonService extends Serializable {
     LessonDTO createLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
     //LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
     void deleteLesson(Long id);
-    LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
+    //LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
     List<LessonDTO> findAll();
 }

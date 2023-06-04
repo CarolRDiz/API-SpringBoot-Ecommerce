@@ -3,7 +3,9 @@ package es.iesrafaelalberti.proyectospring.services.impl;
 import es.iesrafaelalberti.proyectospring.dto.LessonCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.LessonDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
+import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Lesson;
+import es.iesrafaelalberti.proyectospring.repositories.ChapterRepository;
 import es.iesrafaelalberti.proyectospring.repositories.LessonRepository;
 import es.iesrafaelalberti.proyectospring.services.LessonService;
 import es.iesrafaelalberti.proyectospring.services.VideoService;
@@ -28,29 +30,34 @@ public class LessonServiceImpl implements LessonService {
     @Autowired
     LessonRepository lessonRepository;
     @Autowired
+    ChapterRepository chapterRepository;
+    @Autowired
     private GridFsTemplate gridFsTemplate;
     private ModelMapper mapper = new ModelMapper();
     TypeMap<Lesson, LessonDTO> propertyMapper = this.mapper.createTypeMap(Lesson.class, LessonDTO.class);
 
     @Override
-    public LessonDTO createLesson(LessonCreateDTO lessonCreateDTO) throws IOException {
-
+    public LessonDTO createLesson(LessonCreateDTO newLesson) throws IOException {
+        // ModelMapper : Lesson -> LessonDTO
         Converter<String, String> completeUrl = c -> "/videos/stream/".concat(c.getSource());
         propertyMapper.addMappings(
                 mapper -> mapper.using(completeUrl).map(Lesson::getVideo_id, LessonDTO::setUrl)
         );
-
-        String video_id = videoService.addVideo( lessonCreateDTO.getTitle(), lessonCreateDTO.getVideo());
-        Long lesson_id = lessonCreateDTO.getId();
-        Lesson lesson;
-        if (lesson_id != null) {
-            lesson = new Lesson(lessonCreateDTO.getId(), video_id, lessonCreateDTO.getTitle(), lessonCreateDTO.getDuration());
-        } else {
-            lesson = new Lesson(video_id, lessonCreateDTO.getTitle(), lessonCreateDTO.getDuration());
+        propertyMapper.addMappings(
+                mapper -> mapper.map(src -> src.getChapter().getId(), LessonDTO::setChapter_id)
+        );
+        String video_id = videoService.addVideo( newLesson.getTitle(), newLesson.getVideo());
+        Optional<Chapter> chapter = chapterRepository.findById(newLesson.getChapter_id());
+        if (chapter.isPresent()){
+            Lesson lesson = new Lesson(video_id, newLesson.getTitle(), newLesson.getDuration(), chapter.get());
+            Lesson lessonSaved = lessonRepository.save(lesson);
+            LessonDTO lessonDTO = this.mapper.map(lessonSaved, LessonDTO.class);
+            return lessonDTO;
         }
-        Lesson lessonSaved = lessonRepository.save(lesson);
-        LessonDTO lessonDTO = this.mapper.map(lessonSaved, LessonDTO.class);
-        return lessonDTO;
+        else{
+            throw new NotFoundException("Chapter not found");
+        }
+
     }
 
     @Override
@@ -93,10 +100,12 @@ public class LessonServiceImpl implements LessonService {
             throw new NotFoundException("Lesson not found");
         }
     }
+    /*
     @Override
     public LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException{
         Long newLessonId = lessonCreateDTO.getId();
         deleteLesson(newLessonId);
         return createLesson(lessonCreateDTO);
     }
+     */
 }

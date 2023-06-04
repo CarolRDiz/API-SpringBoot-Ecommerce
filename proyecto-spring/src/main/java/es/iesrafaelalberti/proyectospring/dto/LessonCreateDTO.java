@@ -10,8 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LessonCreateDTO {
-    //private Long charapter_id;
-    private Long id;
     private MultipartFile video;
     private String title;
     private Integer duration;

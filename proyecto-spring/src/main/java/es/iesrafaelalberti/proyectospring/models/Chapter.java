@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.proyectospring.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import es.iesrafaelalberti.proyectospring.dto.ChapterCreateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
     private String title;
+    @JsonManagedReference
     @OneToMany(
             mappedBy = "chapter",
             cascade = CascadeType.ALL,
