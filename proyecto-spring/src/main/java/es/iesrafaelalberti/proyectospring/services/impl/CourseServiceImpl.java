@@ -37,4 +37,12 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toList());
         return dtos;
     }
+    @Override
+    public void delete(Long id){
+        Optional<Course> course = courseRepository.findById(id);
+        if(course.isPresent()) courseRepository.delete(course.get());
+        else{
+            throw new NotFoundException("Course not found");
+        }
+    }
 }

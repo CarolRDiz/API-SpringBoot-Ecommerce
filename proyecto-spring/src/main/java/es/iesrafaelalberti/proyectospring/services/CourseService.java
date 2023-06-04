@@ -11,5 +11,5 @@ public interface CourseService {
     CourseDTO create(CourseCreateDTO courseCreateDTO) ;
     List<CourseDTO> findAll();
 
-    //void delete(Long id);
+    void delete(Long id);
 }
