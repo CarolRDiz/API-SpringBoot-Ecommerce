@@ -22,6 +22,8 @@ public class Lesson extends ElvisEntity{
     private String video_id;
     private String title;
     private Integer duration;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Chapter chapter;
 
     public Lesson(Long id, String video_id, String title, Integer duration) {
         this.id = id;

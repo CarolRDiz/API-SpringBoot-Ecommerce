@@ -15,4 +15,5 @@ public class LessonDTO {
     private String url;
     private String title;
     private Integer duration;
+    private Long chapter_id;
 }
