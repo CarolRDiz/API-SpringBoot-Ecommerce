@@ -30,9 +30,13 @@ public class ChapterController {
 
     @RequestMapping(path = "/chapters/", method = POST)
     public ResponseEntity<Object> create(@RequestBody ChapterCreateDTO newChapter){
-        return new ResponseEntity<>(
-                chapterService.create(newChapter),
-                HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(chapterService.create(newChapter), HttpStatus.CREATED);
+        } catch (NotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     @GetMapping("/chapters/")
     public ResponseEntity<Object> findAll() {

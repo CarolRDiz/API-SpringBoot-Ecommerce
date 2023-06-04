@@ -19,10 +19,12 @@ public class ChapterDTO {
     private Long id ;
     private String title;
     private Set<Lesson> lessons;
+    private Long course_id;
 
     public ChapterDTO(Chapter chapter) {
         this.id = chapter.getId();
         this.title = chapter.getTitle();
         this.lessons = chapter.getLessons();
+        this.course_id = chapter.getCourse().getId();
     }
 }

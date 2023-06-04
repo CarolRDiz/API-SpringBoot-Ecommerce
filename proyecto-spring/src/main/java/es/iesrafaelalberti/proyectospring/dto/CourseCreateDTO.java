@@ -9,13 +9,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CourseCreateDTO implements Serializable {
     private String title;
-    private String author;
-    private Double price;
-    private Number hours;
-    private Number minutes;
-    private String language;
-    private String subtitle;
-    private String area;
-    private String subarea;
-    private String level;
+    private Integer price;
 }

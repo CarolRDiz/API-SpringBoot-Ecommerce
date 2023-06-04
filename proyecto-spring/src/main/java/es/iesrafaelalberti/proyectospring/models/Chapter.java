@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.proyectospring.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import es.iesrafaelalberti.proyectospring.dto.ChapterCreateDTO;
 import jakarta.persistence.*;
@@ -28,10 +29,13 @@ public class Chapter {
     )
     private Set<Lesson> lessons = new HashSet<>();
 
-    public Chapter(Long id, String title, Set<Lesson> comments) {
-        this.id = id;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Course course;
+
+    public Chapter(Course course, String title) {
+        this.course = course;
         this.title = title;
-        this.lessons = comments;
     }
 
     public Chapter(ChapterCreateDTO newChapter) {
