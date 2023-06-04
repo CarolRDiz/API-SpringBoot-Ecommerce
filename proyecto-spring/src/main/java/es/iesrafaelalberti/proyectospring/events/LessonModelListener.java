@@ -1,4 +1,4 @@
-package es.iesrafaelalberti.proyectospring.events;
+/*package es.iesrafaelalberti.proyectospring.events;
 
 import es.iesrafaelalberti.proyectospring.models.Lesson;
 import es.iesrafaelalberti.proyectospring.services.SequenceGeneratorService;
@@ -25,3 +25,4 @@ public class LessonModelListener extends AbstractMongoEventListener<Lesson> {
     }
 
 }
+ */
