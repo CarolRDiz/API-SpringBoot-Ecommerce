@@ -1,14 +1,17 @@
 package es.iesrafaelalberti.proyectospring.events;
 
-import es.iesrafaelalberti.proyectospring.models.ElvisEntity;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.services.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserModelListener extends AbstractMongoEventListener<Users> {
+
     private SequenceGeneratorService sequenceGenerator;
+
     @Autowired
     public UserModelListener(SequenceGeneratorService sequenceGenerator) {
         this.sequenceGenerator = sequenceGenerator;
@@ -20,4 +23,5 @@ public class UserModelListener extends AbstractMongoEventListener<Users> {
             event.getSource().setId(sequenceGenerator.generateSequence(Users.SEQUENCE_NAME));
         }
     }
+
 }

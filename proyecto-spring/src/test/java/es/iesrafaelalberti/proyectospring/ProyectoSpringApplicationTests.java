@@ -1,9 +1,5 @@
 package es.iesrafaelalberti.proyectospring;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import es.iesrafaelalberti.proyectospring.models.Course;
-import es.iesrafaelalberti.proyectospring.models.CoursePurchase;
-import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import static org.hamcrest.Matchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
