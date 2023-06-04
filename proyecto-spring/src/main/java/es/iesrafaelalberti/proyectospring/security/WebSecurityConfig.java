@@ -1,3 +1,4 @@
+/*
 package es.iesrafaelalberti.proyectospring.security;
 
 import org.springframework.context.annotation.Bean;
@@ -49,3 +50,4 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+*/
