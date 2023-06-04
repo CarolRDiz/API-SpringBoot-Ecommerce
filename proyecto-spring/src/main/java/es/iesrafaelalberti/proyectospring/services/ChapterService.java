@@ -8,4 +8,6 @@ import java.util.List;
 public interface ChapterService {
     ChapterDTO create(ChapterCreateDTO chapterCreateDTO) ;
     List<ChapterDTO> findAll();
+
+    void delete(Long id);
 }
