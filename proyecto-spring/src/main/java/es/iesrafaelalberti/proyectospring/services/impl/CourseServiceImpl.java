@@ -45,4 +45,14 @@ public class CourseServiceImpl implements CourseService {
             throw new NotFoundException("Course not found");
         }
     }
+    @Override
+    public CourseDTO findById(Long id) {
+        Optional<Course> course = courseRepository.findById(id);
+        if(course.isPresent()){
+            return mapper.map(course, CourseDTO.class);
+        }
+        else{
+            throw new NotFoundException("Course not found");
+        }
+    }
 }

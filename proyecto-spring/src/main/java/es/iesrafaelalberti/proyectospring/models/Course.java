@@ -20,6 +20,10 @@ public class Course {
     private Long id ;
     private String title;
     private Integer price;
+    //TODO
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Cart> carts = new HashSet<>();
+
     @JsonManagedReference
     @OneToMany(
             mappedBy = "course",

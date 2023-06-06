@@ -12,4 +12,5 @@ public interface CourseService {
     List<CourseDTO> findAll();
 
     void delete(Long id);
+    CourseDTO findById(Long id);
 }

@@ -27,7 +27,8 @@ public class Users extends ElvisEntity{
     private String email;
     private String password;
     private LocalDateTime created;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Cart> carts = new HashSet<>();
     /*
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
