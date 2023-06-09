@@ -52,7 +52,14 @@ public class Users extends ElvisEntity{
         this.password   = password;
         this.admin = admin;
     }
-/*
+
+    public Users(Long id, String username, String password, boolean admin) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.admin = admin;
+    }
+    /*
     public Users(UsersCreateDTO newUsers) {
         this.name       = newUsers.getName();
         this.surname    = newUsers.getSurname();

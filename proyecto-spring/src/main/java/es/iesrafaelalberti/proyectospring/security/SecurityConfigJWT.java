@@ -14,6 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +24,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -29,6 +35,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -47,11 +54,27 @@ public class SecurityConfigJWT {
     @Qualifier("myUserDetailsService")
     MyUserDetailsService myUserDetailsService;
 
+    @Bean
+    public AuthenticationManager authenticationManager(MyUserDetailsService myUserDetailsService) {
+        var authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(myUserDetailsService);
+        return new ProviderManager(authProvider);
+    }
+    @Bean
+    public UserDetailsService users() {
+        return new InMemoryUserDetailsManager(
+                User.withUsername("carol")
+                        .password("{noop}password")
+                        .authorities("read")
+                        .build()
+        );
+    }
+    /*
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     }
-
+    */
     private final RsaKeyProperties jwtConfigProperties;
     public SecurityConfigJWT(RsaKeyProperties jwtConfigProperties) {
         this.jwtConfigProperties = jwtConfigProperties;
@@ -70,6 +93,7 @@ public class SecurityConfigJWT {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/v3/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger**").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/token").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
@@ -84,6 +108,7 @@ public class SecurityConfigJWT {
     //	This was added via PR (thanks to @ch4mpy)
     //	This will allow the /token endpoint to use basic auth and everything else uses the SFC above
     //
+    /*
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
     public SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -100,11 +125,11 @@ public class SecurityConfigJWT {
                 //  This stateless architecture plays well with REST APIs and their Statelessness constraint.
                 //  They also work well with authentication mechanisms such as Basic and Digest Authentication.
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(withDefaults())
+                //.httpBasic(withDefaults())
                 // Autentificarse con username y password
                 .build();
     }
-
+    */
     @Bean
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(jwtConfigProperties.publicKey()).build();
