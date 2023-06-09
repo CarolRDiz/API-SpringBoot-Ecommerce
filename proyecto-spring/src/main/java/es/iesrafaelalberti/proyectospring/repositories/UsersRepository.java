@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UsersRepository extends JpaRepository<Users, Long> {
-
+    Users findByUsername(String username);
 }

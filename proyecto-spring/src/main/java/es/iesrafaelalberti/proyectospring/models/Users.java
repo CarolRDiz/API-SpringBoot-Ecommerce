@@ -22,6 +22,7 @@ public class Users extends ElvisEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String username;
     private String name;
     private String surname;
     private String email;
@@ -29,6 +30,8 @@ public class Users extends ElvisEntity{
     private LocalDateTime created;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
+    private boolean admin;
+
     /*
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
@@ -41,11 +44,13 @@ public class Users extends ElvisEntity{
     //private Set<CoursePurchase> coursePurchases = new HashSet<>();
 
 
-    public Users(String name, String surname, String email, String password) {
+    public Users(String username, String name, String surname, String email, String password, boolean admin) {
+        this.username = username;
         this.name       = name;
         this.surname    = surname;
         this.email      = email;
         this.password   = password;
+        this.admin = admin;
     }
 /*
     public Users(UsersCreateDTO newUsers) {
