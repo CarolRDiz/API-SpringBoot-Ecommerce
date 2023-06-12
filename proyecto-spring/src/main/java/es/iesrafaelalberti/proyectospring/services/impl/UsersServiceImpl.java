@@ -1,4 +1,5 @@
 package es.iesrafaelalberti.proyectospring.services.impl;
+import es.iesrafaelalberti.proyectospring.dto.UserPrincipalDTO;
 import es.iesrafaelalberti.proyectospring.dto.UsersCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.UsersDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
@@ -38,5 +39,16 @@ public class UsersServiceImpl implements UsersService {
     public void delete(Long id) {
         Optional<Users> user = usersRepository.findById(id);
         if(user.isPresent()) usersRepository.delete(user.get());
+    }
+    @Override
+    public UserPrincipalDTO getUserPrincipal(Long id){
+        Optional<Users> user = usersRepository.findById(id);
+        if(user.isPresent()) {
+            UserPrincipalDTO userDTO = this.mapper.map(user, UserPrincipalDTO.class);
+            return userDTO;
+        } else {
+            //throw new NotFoundException("User not found");
+            return null;
+        }
     }
 }

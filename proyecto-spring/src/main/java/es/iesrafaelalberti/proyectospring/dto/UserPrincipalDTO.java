@@ -1,4 +1,5 @@
 package es.iesrafaelalberti.proyectospring.dto;
+import es.iesrafaelalberti.proyectospring.models.Cart;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,23 +8,18 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.Set;
 
 
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor @Getter
-public class UsersDTO implements Serializable {
-    private Long id;
+public class UserPrincipalDTO implements Serializable {
     private String username;
     private String name;
     private String surname;
     private String email;
-
-    public UsersDTO(Users users) {
-        this.id         = users.getId();
-        this.name       = users.getName();
-        this.surname    = users.getSurname();
-        this.email      = users.getEmail();
-    }
+    private Set<Cart> carts;
+    private boolean admin;
 
 }
