@@ -1,16 +1,9 @@
 package es.iesrafaelalberti.proyectospring.controllers;
 
 import es.iesrafaelalberti.proyectospring.dto.LessonCreateDTO;
-import es.iesrafaelalberti.proyectospring.dto.LessonDTO;
-import es.iesrafaelalberti.proyectospring.dto.UsersCreateDTO;
-import es.iesrafaelalberti.proyectospring.dto.UsersDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
-import es.iesrafaelalberti.proyectospring.models.Lesson;
-import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.LessonRepository;
-import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.LessonService;
-import es.iesrafaelalberti.proyectospring.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 

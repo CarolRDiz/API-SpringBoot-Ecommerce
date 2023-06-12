@@ -10,9 +10,8 @@ import java.io.Serializable;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsersCreateDTO implements Serializable {
-    private String name;
-    private String surname;
+public class RegistrationDTO implements Serializable {
+    private String username;
     private String email;
     private String password;
 }

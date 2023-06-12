@@ -1,7 +1,7 @@
 package es.iesrafaelalberti.proyectospring.controllers;
 
+import es.iesrafaelalberti.proyectospring.dto.RegistrationDTO;
 import es.iesrafaelalberti.proyectospring.dto.UserPrincipalDTO;
-import es.iesrafaelalberti.proyectospring.dto.UsersCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.UsersDTO;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
@@ -43,7 +43,7 @@ public class UsersController {
     }
 
     @PostMapping("/users/create")
-    public ResponseEntity<Object> create(@RequestBody UsersCreateDTO users) {
+    public ResponseEntity<Object> create(@RequestBody RegistrationDTO users) {
         return new ResponseEntity<>(
                 new UsersDTO(usersService.usersCreate(users)),
                 HttpStatus.OK);

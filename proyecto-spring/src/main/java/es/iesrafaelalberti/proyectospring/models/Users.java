@@ -1,14 +1,9 @@
 package es.iesrafaelalberti.proyectospring.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
-import es.iesrafaelalberti.proyectospring.dto.UsersCreateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -53,14 +48,15 @@ public class Users extends ElvisEntity{
         this.admin = admin;
     }
 
-    public Users(Long id, String username, String password, boolean admin) {
+    public Users(Long id, String username, String surname, String password, boolean admin) {
         this.id = id;
         this.username = username;
+        this.surname    = surname;
         this.password = password;
         this.admin = admin;
     }
     /*
-    public Users(UsersCreateDTO newUsers) {
+    public Users(RegistrationDTO newUsers) {
         this.name       = newUsers.getName();
         this.surname    = newUsers.getSurname();
         this.email      = newUsers.getEmail();

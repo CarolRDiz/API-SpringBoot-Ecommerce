@@ -96,6 +96,7 @@ public class SecurityConfigJWT {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/token").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/registration/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)

@@ -1,15 +1,12 @@
 package es.iesrafaelalberti.proyectospring.services.impl;
 import es.iesrafaelalberti.proyectospring.dto.UserPrincipalDTO;
-import es.iesrafaelalberti.proyectospring.dto.UsersCreateDTO;
+import es.iesrafaelalberti.proyectospring.dto.RegistrationDTO;
 import es.iesrafaelalberti.proyectospring.dto.UsersDTO;
-import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.UsersService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,7 +17,7 @@ public class UsersServiceImpl implements UsersService {
     UsersRepository usersRepository;
     private ModelMapper mapper = new ModelMapper();
     @Override
-    public Users usersCreate(UsersCreateDTO newUser) {
+    public Users usersCreate(RegistrationDTO newUser) {
             Users user = this.mapper.map(newUser, Users.class);
             return usersRepository.save(user);
     }

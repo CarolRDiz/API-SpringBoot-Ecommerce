@@ -18,8 +18,8 @@ public class Seeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Users testUser = new Users(1L,"carol", "{noop}password", true);
-        Users testUser2 = new Users(2L,"noad", "{noop}password", false);
+        Users testUser = new Users(1L,"carol", "apellido", "{noop}password", true);
+        Users testUser2 = new Users(2L,"noad","apellido", "{noop}password", false);
         userRepository.save(testUser);
         userRepository.save(testUser2);
 
