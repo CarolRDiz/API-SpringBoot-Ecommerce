@@ -26,8 +26,7 @@ public class AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
     private final TokenService tokenService;
-    private final UsersService usersService;;
-    private ModelMapper mapper = new ModelMapper();
+    private final UsersService usersService;
     private final AuthenticationManager authenticationManager;
 
     public AuthController(TokenService tokenService, AuthenticationManager authenticationManager, UsersService usersService) {
@@ -36,7 +35,7 @@ public class AuthController {
         this.usersService = usersService;
     }
     @PostMapping("/token")
-    public ResponseEntity<Object> token(@RequestBody LoginRequestDTO loginRequest) {
+    public String token(@RequestBody LoginRequestDTO loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
@@ -44,6 +43,10 @@ public class AuthController {
         LOG.debug("Token requested for user: '{}'", authentication.getName());
         String token = tokenService.generateToken(authentication);
         LOG.debug("Token granted: {}", token);
+
+        return token;
+
+        /*
         MyUserPrincipal user = (MyUserPrincipal) authentication.getPrincipal();
         UserPrincipalDTO userDTO = this.mapper.map(user, UserPrincipalDTO.class);
 
@@ -53,7 +56,11 @@ public class AuthController {
                         token
                 )
                 .body(userDTO);
+
+         */
     }
+
+
     /*
     @PostMapping("/token")
     public String token(Authentication authentication) {

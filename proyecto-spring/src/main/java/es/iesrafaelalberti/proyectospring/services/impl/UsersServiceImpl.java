@@ -36,6 +36,12 @@ public class UsersServiceImpl implements UsersService {
         }
     }
     @Override
+    public UserPrincipalDTO getPrincipal(String username){
+        Users user = usersRepository.findByUsername(username);
+        UserPrincipalDTO userDTO = this.mapper.map(user, UserPrincipalDTO.class);
+        return userDTO;
+    }
+    @Override
     public void delete(Long id) {
         Optional<Users> user = usersRepository.findById(id);
         if(user.isPresent()) usersRepository.delete(user.get());
