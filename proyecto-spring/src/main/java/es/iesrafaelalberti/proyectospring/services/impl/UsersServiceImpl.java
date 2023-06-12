@@ -40,15 +40,5 @@ public class UsersServiceImpl implements UsersService {
         Optional<Users> user = usersRepository.findById(id);
         if(user.isPresent()) usersRepository.delete(user.get());
     }
-    @Override
-    public UserPrincipalDTO getUserPrincipal(Long id){
-        Optional<Users> user = usersRepository.findById(id);
-        if(user.isPresent()) {
-            UserPrincipalDTO userDTO = this.mapper.map(user, UserPrincipalDTO.class);
-            return userDTO;
-        } else {
-            //throw new NotFoundException("User not found");
-            return null;
-        }
-    }
+
 }

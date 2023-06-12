@@ -9,6 +9,5 @@ import java.io.Serializable;
 public interface UsersService  extends Serializable {
     Users usersCreate(UsersCreateDTO newUser);
     UsersDTO findById(Long id);
-    UserPrincipalDTO getUserPrincipal(Long id);
     void delete(Long id);
 }

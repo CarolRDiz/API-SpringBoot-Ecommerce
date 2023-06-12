@@ -5,6 +5,7 @@ import es.iesrafaelalberti.proyectospring.dto.UserPrincipalDTO;
 import es.iesrafaelalberti.proyectospring.security.MyUserPrincipal;
 import es.iesrafaelalberti.proyectospring.services.TokenService;
 import es.iesrafaelalberti.proyectospring.services.UsersService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +27,7 @@ public class AuthController {
 
     private final TokenService tokenService;
     private final UsersService usersService;;
-
+    private ModelMapper mapper = new ModelMapper();
     private final AuthenticationManager authenticationManager;
 
     public AuthController(TokenService tokenService, AuthenticationManager authenticationManager, UsersService usersService) {
@@ -44,13 +45,14 @@ public class AuthController {
         String token = tokenService.generateToken(authentication);
         LOG.debug("Token granted: {}", token);
         MyUserPrincipal user = (MyUserPrincipal) authentication.getPrincipal();
+        UserPrincipalDTO userDTO = this.mapper.map(user, UserPrincipalDTO.class);
 
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
                         token
                 )
-                .body(user);
+                .body(userDTO);
     }
     /*
     @PostMapping("/token")

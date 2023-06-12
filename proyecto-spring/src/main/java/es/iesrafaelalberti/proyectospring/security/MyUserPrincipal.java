@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.proyectospring.security;
 
+import es.iesrafaelalberti.proyectospring.models.Cart;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 public class MyUserPrincipal implements UserDetails {
     private Users user;
@@ -36,6 +38,14 @@ public class MyUserPrincipal implements UserDetails {
     public Long getId() {
         return user.getId();
     }
+    public String getName() {
+        return user.getName();
+    }
+    public String getSurname() {
+        return user.getSurname();
+    }
+    public String getEmail() {return user.getEmail();}
+    public Set<Cart> getCarts() {return user.getCarts();}
 
     @Override
     public boolean isAccountNonExpired() {
