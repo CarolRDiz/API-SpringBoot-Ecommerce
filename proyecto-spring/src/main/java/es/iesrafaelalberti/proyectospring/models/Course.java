@@ -24,6 +24,10 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn()
+    private Category category;
+
     @JsonManagedReference
     @OneToMany(
             mappedBy = "course",
