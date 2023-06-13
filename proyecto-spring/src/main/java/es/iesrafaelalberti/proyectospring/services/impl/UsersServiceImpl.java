@@ -7,6 +7,7 @@ import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.UsersService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +17,20 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     UsersRepository usersRepository;
     private ModelMapper mapper = new ModelMapper();
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
-    public Users usersCreate(RegistrationDTO newUser) {
-            Users user = this.mapper.map(newUser, Users.class);
-            return usersRepository.save(user);
+    public String signUpUser (Users newUser){
+        boolean userExists = usersRepository.findByUsername(newUser.getUsername()).isPresent();
+        if (userExists){
+            throw new IllegalStateException("Username already taken");
+        }
+        String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
+        newUser.setPassword(encodedPassword);
+        usersRepository.save(newUser);
+        return "it works";
     }
+
     @Override
     public UsersDTO findById(Long id) {
         Optional<Users> user = usersRepository.findById(id);
@@ -34,8 +44,8 @@ public class UsersServiceImpl implements UsersService {
     }
     @Override
     public UserPrincipalDTO getPrincipal(String username){
-        Users user = usersRepository.findByUsername(username);
-        UserPrincipalDTO userDTO = this.mapper.map(user, UserPrincipalDTO.class);
+        Optional<Users> user = usersRepository.findByUsername(username);
+        UserPrincipalDTO userDTO = this.mapper.map(user.get(), UserPrincipalDTO.class);
         return userDTO;
     }
     @Override

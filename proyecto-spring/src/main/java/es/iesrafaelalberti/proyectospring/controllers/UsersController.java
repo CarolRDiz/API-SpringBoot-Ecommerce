@@ -42,13 +42,6 @@ public class UsersController {
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
-    @PostMapping("/users/create")
-    public ResponseEntity<Object> create(@RequestBody RegistrationDTO users) {
-        return new ResponseEntity<>(
-                new UsersDTO(usersService.usersCreate(users)),
-                HttpStatus.OK);
-    }
-
     @DeleteMapping("/users/{id}/")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Users> user = usersRepository.findById(id);

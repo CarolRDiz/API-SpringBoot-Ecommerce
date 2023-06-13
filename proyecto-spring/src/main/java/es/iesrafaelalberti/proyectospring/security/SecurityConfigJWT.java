@@ -59,6 +59,7 @@ public class SecurityConfigJWT {
     public AuthenticationManager authenticationManager(MyUserDetailsService myUserDetailsService) {
         var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(myUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authProvider);
     }
     @Bean
