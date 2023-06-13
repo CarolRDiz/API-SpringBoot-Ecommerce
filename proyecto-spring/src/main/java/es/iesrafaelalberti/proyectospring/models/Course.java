@@ -1,5 +1,7 @@
 package es.iesrafaelalberti.proyectospring.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,8 +27,11 @@ public class Course {
     private Set<Cart> carts = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn()
     private Category category;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Users author;
 
     @JsonManagedReference
     @OneToMany(
@@ -36,4 +41,8 @@ public class Course {
     )
     private Set<Chapter> chapters =  new HashSet<>();
 
+    public Course(String title, Users author) {
+        this.title = title;
+        this.author = author;
+    }
 }

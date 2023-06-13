@@ -1,12 +1,12 @@
 package es.iesrafaelalberti.proyectospring.services.impl;
 
-import es.iesrafaelalberti.proyectospring.dto.ChapterDTO;
 import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.CourseDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
-import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Course;
+import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.CourseRepository;
+import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.CourseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,24 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    UsersRepository usersRepository;
+
     private ModelMapper mapper = new ModelMapper();
     @Override
-    public CourseDTO create(CourseCreateDTO newCourse){
-        Course course = mapper.map( newCourse, Course.class);
-        Course courseSaved = courseRepository.save(course);
-        CourseDTO courseDTO =  mapper.map( courseSaved, CourseDTO.class);
-        return courseDTO;
+    public CourseDTO create(CourseCreateDTO newCourse, String username){
+
+        Optional<Users> author = usersRepository.findByUsername(username);
+        if (author.isPresent()){
+            newCourse.setAuthor(author.get());
+            Course course = new Course(newCourse.getTitle(),newCourse.getAuthor());
+            Course courseSaved = courseRepository.save(course);
+            CourseDTO courseDTO =  this.mapper.map( courseSaved, CourseDTO.class);
+            return courseDTO;
+        }
+        else{
+            throw new NotFoundException("El usuario no existe");
+        }
     }
     @Override
     public List<CourseDTO> findAll() {

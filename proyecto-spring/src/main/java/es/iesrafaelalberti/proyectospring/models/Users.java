@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.proyectospring.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,11 @@ public class Users extends ElvisEntity{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
     private boolean admin;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "author",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<Course> createdCourses = new HashSet<>();
 
     /*
     @OneToOne(cascade = CascadeType.ALL)

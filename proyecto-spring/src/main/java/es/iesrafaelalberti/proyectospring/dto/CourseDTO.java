@@ -2,6 +2,7 @@ package es.iesrafaelalberti.proyectospring.dto;
 
 import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Lesson;
+import es.iesrafaelalberti.proyectospring.models.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,5 @@ import java.util.Set;
 public class CourseDTO {
     private Long id ;
     private String title;
-    private Set<Chapter> chapters;
-
+    private Users author;
 }

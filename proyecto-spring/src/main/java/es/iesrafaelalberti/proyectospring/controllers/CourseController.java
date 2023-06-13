@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -17,8 +19,10 @@ public class CourseController {
     CourseService courseService;
 
     @RequestMapping(path = "/courses/", method = POST)
-    public ResponseEntity<Object> create(@RequestBody CourseCreateDTO newCourse){
-        return new ResponseEntity<>(courseService.create(newCourse), HttpStatus.CREATED);
+    public ResponseEntity<Object> create(@RequestBody CourseCreateDTO newCourse, Principal principal){
+        String username = principal.getName();
+        return new ResponseEntity<>(courseService.create(newCourse, username), HttpStatus.CREATED);
+        //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
     @GetMapping("/courses/")
     public ResponseEntity<Object> findAll() {
