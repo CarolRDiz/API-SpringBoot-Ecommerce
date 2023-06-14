@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -43,6 +44,20 @@ public class CourseServiceImpl implements CourseService {
             throw new NotFoundException("Course not found");
         }
     }
+    /*
+    @Override
+    public Course updateVideo(Long id, MultipartFile file){
+        Optional<Course> course = courseRepository.findById(id);
+        if(course.isPresent()){
+
+            return courseRepository.save(course.get());
+        }
+        else{
+            throw new NotFoundException("Course not found");
+        }
+    }
+
+     */
 
     @Override
     public CourseDTO create(CourseCreateDTO newCourse, String username){
