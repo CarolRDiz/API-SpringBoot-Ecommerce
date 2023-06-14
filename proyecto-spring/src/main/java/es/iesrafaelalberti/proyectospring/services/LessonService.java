@@ -11,8 +11,7 @@ import java.util.List;
 public interface LessonService extends Serializable {
     LessonDTO findById(Long id);
     LessonDTO createLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
-    //LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
+    //LessonDTO updateLesson(Long id, LessonCreateDTO lessonCreateDTO) throws IOException;
     void deleteLesson(Long id);
-    //LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException;
     List<LessonDTO> findAll();
 }

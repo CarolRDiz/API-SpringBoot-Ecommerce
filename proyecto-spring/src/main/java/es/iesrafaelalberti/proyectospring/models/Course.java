@@ -21,7 +21,14 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
     private String title;
+    private String subtitle;
+    private String description;
+    private String requirements;
+    private Set<String> teaches = new HashSet<>();
+    private Set<String> includes = new HashSet<>();
     private Integer price;
+    private boolean enabled = false;
+
     //TODO
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();

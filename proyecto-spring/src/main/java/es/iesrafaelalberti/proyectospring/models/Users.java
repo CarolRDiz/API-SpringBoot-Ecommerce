@@ -27,6 +27,9 @@ public class Users extends ElvisEntity{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
     private boolean admin;
+
+
+
     @JsonManagedReference
     @OneToMany(mappedBy = "author",
             cascade = CascadeType.ALL,

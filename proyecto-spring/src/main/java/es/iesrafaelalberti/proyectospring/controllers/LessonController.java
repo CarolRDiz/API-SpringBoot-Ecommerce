@@ -1,7 +1,9 @@
 package es.iesrafaelalberti.proyectospring.controllers;
 
 import es.iesrafaelalberti.proyectospring.dto.LessonCreateDTO;
+import es.iesrafaelalberti.proyectospring.dto.LessonDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
+import es.iesrafaelalberti.proyectospring.models.Lesson;
 import es.iesrafaelalberti.proyectospring.repositories.LessonRepository;
 import es.iesrafaelalberti.proyectospring.services.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -43,9 +46,9 @@ public class LessonController {
                 HttpStatus.OK);
     }
     /*
-    @RequestMapping(path = "/lessons/update", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<Object> update(@ModelAttribute LessonCreateDTO lessonCreateDTO) throws IOException {
-        Optional<Lesson> oldLesson = lessonRepository.findById(lessonCreateDTO.getId());
+    @RequestMapping(path = "/lessons/update/{id}", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @ModelAttribute LessonCreateDTO lessonCreateDTO) throws IOException {
+        Optional<Lesson> oldLesson = lessonRepository.findById(id);
         if(oldLesson.isPresent()) {
             LessonDTO lessonDTO = lessonService.updateLesson(lessonCreateDTO);
             return new ResponseEntity<>(lessonDTO, HttpStatus.OK);

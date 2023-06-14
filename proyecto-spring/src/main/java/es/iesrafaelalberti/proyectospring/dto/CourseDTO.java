@@ -17,4 +17,5 @@ public class CourseDTO {
     private Long id ;
     private String title;
     private Users author;
+    private boolean enabled;
 }

@@ -11,8 +11,11 @@ import es.iesrafaelalberti.proyectospring.services.CourseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,23 @@ public class CourseServiceImpl implements CourseService {
     UsersRepository usersRepository;
 
     private ModelMapper mapper = new ModelMapper();
+
+    @Override
+    public Course updateCourseByFields(Long id, Map<String, Object> fields){
+        Optional<Course> course = courseRepository.findById(id);
+        if(course.isPresent()){
+           fields.forEach((key,value) -> {
+               Field field = ReflectionUtils.findField(Course.class, key);
+               field.setAccessible(true);
+               ReflectionUtils.setField(field, course.get(), value);
+           });
+           return courseRepository.save(course.get());
+        }
+        else{
+            throw new NotFoundException("Course not found");
+        }
+    }
+
     @Override
     public CourseDTO create(CourseCreateDTO newCourse, String username){
 

@@ -2,6 +2,7 @@ package es.iesrafaelalberti.proyectospring.services.impl;
 
 import es.iesrafaelalberti.proyectospring.dto.LessonCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.LessonDTO;
+import es.iesrafaelalberti.proyectospring.dto.LessonUpdateDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
 import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Lesson;
@@ -102,10 +103,18 @@ public class LessonServiceImpl implements LessonService {
     }
     /*
     @Override
+    public LessonDTO updateLesson(Long id, LessonUpdateDTO lessonUpdateDTO) throws IOException{
+
+        deleteLesson(id);
+        return createLesson(lessonCreateDTO);
+    }*/
+    /*
+    @Override
     public LessonDTO updateLesson(LessonCreateDTO lessonCreateDTO) throws IOException{
         Long newLessonId = lessonCreateDTO.getId();
         deleteLesson(newLessonId);
         return createLesson(lessonCreateDTO);
     }
-     */
+    */
+
 }
