@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LessonUpdateDTO {
+public class ChapterUpdateDTO {
     private String title;
     private Integer duration;
     private Long chapter_id;

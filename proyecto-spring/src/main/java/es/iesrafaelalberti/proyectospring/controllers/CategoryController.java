@@ -1,9 +1,6 @@
 package es.iesrafaelalberti.proyectospring.controllers;
 
 import es.iesrafaelalberti.proyectospring.dto.CategoryCreateDTO;
-import es.iesrafaelalberti.proyectospring.dto.ChapterCreateDTO;
-import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
-import es.iesrafaelalberti.proyectospring.services.CartService;
 import es.iesrafaelalberti.proyectospring.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

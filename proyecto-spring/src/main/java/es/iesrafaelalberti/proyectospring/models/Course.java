@@ -1,7 +1,6 @@
 package es.iesrafaelalberti.proyectospring.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -46,7 +45,7 @@ public class Course {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Chapter> chapters =  new HashSet<>();
+    private Set<Lesson> lessons =  new HashSet<>();
 
     public Course(String title, Users author) {
         this.title = title;

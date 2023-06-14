@@ -1,44 +1,36 @@
 package es.iesrafaelalberti.proyectospring.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import es.iesrafaelalberti.proyectospring.dto.ChapterCreateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
+@Table(name = "lessons")
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "chapters")
-public class Chapter {
+public class Chapter extends ElvisEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
+    private String video_id;
     private String title;
-    @JsonManagedReference
-    @OneToMany(
-            mappedBy = "chapter",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private Set<Lesson> lessons = new HashSet<>();
-
+    private Integer duration;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    private Course course;
+    private Lesson lesson;
 
-    public Chapter(Course course, String title) {
-        this.course = course;
+
+    public Chapter(String video_id, String title, Integer duration, Lesson lesson) {
+        this.id = id;
+        this.video_id = video_id;
         this.title = title;
+        this.duration = duration;
+        this.lesson = lesson;
     }
 
-    public Chapter(ChapterCreateDTO newChapter) {
-        this.title = newChapter.getTitle();
-    }
+
 }

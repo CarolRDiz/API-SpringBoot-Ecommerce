@@ -1,43 +1,44 @@
 package es.iesrafaelalberti.proyectospring.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.mongodb.internal.connection.Time;
-import es.iesrafaelalberti.proyectospring.repositories.ChapterRepository;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import es.iesrafaelalberti.proyectospring.dto.LessonCreateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "lessons")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Lesson extends ElvisEntity{
-
+@Table(name = "chapters")
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
-    private String video_id;
     private String title;
-    private Integer duration;
+    @JsonManagedReference
+    @OneToMany(
+            mappedBy = "lesson",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Chapter> chapters = new HashSet<>();
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    private Chapter chapter;
+    private Course course;
 
-
-    public Lesson(String video_id, String title, Integer duration, Chapter chapter) {
-        this.id = id;
-        this.video_id = video_id;
+    public Lesson(Course course, String title) {
+        this.course = course;
         this.title = title;
-        this.duration = duration;
-        this.chapter = chapter;
     }
 
-
+    public Lesson(LessonCreateDTO newChapter) {
+        this.title = newChapter.getTitle();
+    }
 }

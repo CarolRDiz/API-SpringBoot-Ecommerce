@@ -6,10 +6,13 @@ import es.iesrafaelalberti.proyectospring.repositories.ChapterRepository;
 import es.iesrafaelalberti.proyectospring.services.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import java.io.IOException;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 public class ChapterController {
@@ -18,25 +21,44 @@ public class ChapterController {
     @Autowired
     ChapterRepository chapterRepository;
 
-    @RequestMapping(path = "/chapters/", method = POST)
-    public ResponseEntity<Object> create(@RequestBody ChapterCreateDTO newChapter){
-        try {
-            return new ResponseEntity<>(chapterService.create(newChapter), HttpStatus.CREATED);
-        } catch (NotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
     @GetMapping("/chapters/")
-    public ResponseEntity<Object> findAll() {
+    public ResponseEntity<Object> index() {
         return new ResponseEntity<>(chapterService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/chapters/{id}")
+    public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(chapterService.findById(id),HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(path = "/chapters/create", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<Object> create(@ModelAttribute ChapterCreateDTO chapterCreateDTO) throws IOException {
+        return new ResponseEntity<>(
+                chapterService.createChapter(chapterCreateDTO),
+                HttpStatus.OK);
+    }
+    /*
+    @RequestMapping(path = "/lessons/update/{id}", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @ModelAttribute ChapterCreateDTO lessonCreateDTO) throws IOException {
+        Optional<Chapter> oldLesson = chapterRepository.findById(id);
+        if(oldLesson.isPresent()) {
+            ChapterDTO lessonDTO = chapterService.updateLesson(lessonCreateDTO);
+            return new ResponseEntity<>(lessonDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    }
+    */
     @DeleteMapping("/chapters/{id}/")
+
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         HttpStatus httpStatus;
         try {
-            chapterService.delete(id);
+            chapterService.deleteChapter(id);
             httpStatus = HttpStatus.CREATED;
         } catch (NotFoundException e){
             httpStatus = HttpStatus.NOT_FOUND;
