@@ -9,6 +9,7 @@ import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.CourseRepository;
 import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.CourseService;
+import es.iesrafaelalberti.proyectospring.services.ImageService;
 import es.iesrafaelalberti.proyectospring.services.VideoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     VideoService videoService;
     @Autowired
+    ImageService imageService;
+    @Autowired
     private GridFsTemplate gridFsTemplate;
 
     private ModelMapper mapper = new ModelMapper();
@@ -55,25 +58,40 @@ public class CourseServiceImpl implements CourseService {
         }
     }
     @Override
-    public Course updateVideo(Long id, MultipartFile file){
+    public Course updateMultifiles(Long id, MultipartFile video, MultipartFile image){
         Optional<Course> course = courseRepository.findById(id);
         if(course.isPresent()){
             try {
-                //Borra el video anterior
-                gridFsTemplate.delete(new Query(Criteria.where("_id").is(course.get().getVideo_id())));
-                //Guarda el nuevo vídeo y obtiene su id
-                String video_id = videoService.addVideo( course.get().getTitle(), file);
-                //Lo introduce en el chapter
-                Field field = ReflectionUtils.findField(Course.class, "video_id");
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, course.get(), video_id);
+                if(video!=null){
+                    //Borra el video anterior
+                    gridFsTemplate.delete(new Query(Criteria.where("_id").is(course.get().getVideo_id())));
+                    //Guarda el nuevo vídeo y obtiene su id
+                    String video_id = videoService.addVideo( course.get().getTitle(), video);
+                    //Lo introduce en el chapter
+                    Field field = ReflectionUtils.findField(Course.class, "video_id");
+                    field.setAccessible(true);
+                    ReflectionUtils.setField(field, course.get(), video_id);
+                    //return courseRepository.save(course.get());
+                }
+                if(image!=null){
+                    //Borra la imagen anterior
+                    if (course.get().getImage_id()!=null){
+                        imageService.deleteImage(course.get().getImage_id());
+                    }
+                    //Guarda la nueva imagen y obtiene su id
+                    String image_id = imageService.addImage( course.get().getTitle(), image);
+                    //Lo introduce en el chapter
+                    Field field = ReflectionUtils.findField(Course.class, "image_id");
+                    field.setAccessible(true);
+                    ReflectionUtils.setField(field, course.get(), image_id);
+                }
                 return courseRepository.save(course.get());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
         else{
-            throw new NotFoundException("Chapter not found");
+            throw new NotFoundException("Course not found");
         }
     }
 

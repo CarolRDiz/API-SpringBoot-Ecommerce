@@ -10,20 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Service
-public class ImageService {
-    @Autowired
-    private ImageRepository imageRepo;
 
-    public String addImage(String title, MultipartFile file) throws IOException {
-        Image image = new Image(title);
-        image.setImage(
-                new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-        image = imageRepo.insert(image);
-        return image.getId();
-    }
+public interface ImageService {
 
-    public Image getImage(String id) {
-        return imageRepo.findById(id).get();
-    }
+    String addImage(String title, MultipartFile file) throws IOException;
+    void deleteImage(String id);
+    Image getImage(String id);
 }

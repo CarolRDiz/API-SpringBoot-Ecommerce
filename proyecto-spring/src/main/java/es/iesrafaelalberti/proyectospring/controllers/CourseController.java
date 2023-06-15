@@ -36,8 +36,8 @@ public class CourseController {
         //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
     @RequestMapping(path = "/courses/video/{id}/", method = PATCH, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public Course updateVideo(@PathVariable Long id, @RequestParam("file") MultipartFile file, Model model){
-        return courseService.updateVideo(id, file);
+    public Course updateMultifiles(@PathVariable Long id, @RequestParam(required = false) MultipartFile video, @RequestParam(required = false) MultipartFile image, Model model){
+        return courseService.updateMultifiles(id, video, image);
         //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 

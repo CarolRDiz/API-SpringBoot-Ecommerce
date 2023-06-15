@@ -16,4 +16,5 @@ public class CourseDTO {
     private Users author;
     private boolean enabled;
     private String video_id;
+    private String image_id;
 }
