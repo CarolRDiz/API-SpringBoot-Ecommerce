@@ -26,6 +26,7 @@ public class CourseDTO {
     private boolean enabled;
     private String video_id;
     private String image_id;
+    private String image;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

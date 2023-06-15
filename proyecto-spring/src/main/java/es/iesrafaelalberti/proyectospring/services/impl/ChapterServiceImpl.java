@@ -101,7 +101,7 @@ public class ChapterServiceImpl implements ChapterService {
         // ModelMapper : Chapter -> ChapterDTO
         Converter<String, String> completeUrl = c -> "/videos/stream/".concat(c.getSource());
         propertyMapper.addMappings(
-                mapper -> mapper.using(completeUrl).map(es.iesrafaelalberti.proyectospring.models.Chapter::getVideo_id, ChapterDTO::setUrl)
+                mapper -> mapper.using(completeUrl).map(Chapter::getVideo_id, ChapterDTO::setUrl)
         );
         propertyMapper.addMappings(
                 mapper -> mapper.map(src -> src.getLesson().getId(), ChapterDTO::setLesson_id)

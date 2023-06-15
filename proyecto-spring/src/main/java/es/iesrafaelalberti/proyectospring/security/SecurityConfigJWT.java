@@ -97,6 +97,8 @@ public class SecurityConfigJWT {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/token").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/videos/stream/**").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/images/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/registration/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

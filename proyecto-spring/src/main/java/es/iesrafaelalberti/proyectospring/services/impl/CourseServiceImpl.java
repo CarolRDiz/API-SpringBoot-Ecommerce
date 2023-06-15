@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.proyectospring.services.impl;
 
+import es.iesrafaelalberti.proyectospring.dto.ChapterDTO;
 import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.CourseDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
@@ -11,7 +12,9 @@ import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.CourseService;
 import es.iesrafaelalberti.proyectospring.services.ImageService;
 import es.iesrafaelalberti.proyectospring.services.VideoService;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -22,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
     private GridFsTemplate gridFsTemplate;
 
     private ModelMapper mapper = new ModelMapper();
-
+    TypeMap<Course, CourseDTO> propertyMapper = this.mapper.createTypeMap(Course.class, CourseDTO.class);
     @Override
     public CourseDTO updateCourseByFields(Long id, Map<String, Object> fields){
         Optional<Course> course = courseRepository.findById(id);
@@ -131,6 +135,10 @@ public class CourseServiceImpl implements CourseService {
     }
     @Override
     public CourseDTO findById(Long id) {
+        Converter<String, String> completeUrl = c -> Base64.getEncoder().encodeToString(imageService.getImage(c.getSource()).getImage().getData());
+        propertyMapper.addMappings(
+                mapper -> mapper.using(completeUrl).map(Course::getImage_id, CourseDTO::setImage)
+        );
         Optional<Course> course = courseRepository.findById(id);
         if(course.isPresent()){
             return mapper.map(course, CourseDTO.class);
