@@ -35,6 +35,10 @@ public class ImageServiceImpl implements ImageService {
     }
     @Override
     public Image getImage(String id) {
-        return imageRepo.findById(id).get();
+        Optional<Image> image = imageRepo.findById(id);
+        if(image.isPresent()){
+            return image.get();
+        }
+        return null;
     }
 }
