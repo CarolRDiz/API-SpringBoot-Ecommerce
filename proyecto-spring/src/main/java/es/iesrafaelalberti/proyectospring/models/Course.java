@@ -12,6 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,8 +30,8 @@ public class Course {
     private String video_id;
     private String image_id;
     private String requirements;
-    private Set<String> teaches = new HashSet<>();
-    private Set<String> includes = new HashSet<>();
+    private List<String> teaches ;
+    private List<String> includes;
     private Integer price;
 
     @Column(updatable = false)

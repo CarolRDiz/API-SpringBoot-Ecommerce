@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +17,12 @@ import java.time.LocalDateTime;
 public class CourseDTO {
     private Long id ;
     private String title;
+    private String subtitle;
+    private String description;
+    private String requirements;
     private Users author;
+    private List<String> teaches ;
+    private List<String> includes;
     private boolean enabled;
     private String video_id;
     private String image_id;
