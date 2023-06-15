@@ -1,6 +1,7 @@
 package es.iesrafaelalberti.proyectospring.controllers;
 
 import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
+import es.iesrafaelalberti.proyectospring.dto.CourseDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
 import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Course;
@@ -41,7 +42,7 @@ public class CourseController {
         }
     }
     @PatchMapping(value = "/courses/{id}/")
-    public Course update(@PathVariable Long id, @RequestBody Map<String, Object> fields){
+    public CourseDTO update(@PathVariable Long id, @RequestBody Map<String, Object> fields){
         return courseService.updateCourseByFields(id, fields);
         //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }

@@ -43,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
     private ModelMapper mapper = new ModelMapper();
 
     @Override
-    public Course updateCourseByFields(Long id, Map<String, Object> fields){
+    public CourseDTO updateCourseByFields(Long id, Map<String, Object> fields){
         Optional<Course> course = courseRepository.findById(id);
         if(course.isPresent()){
            fields.forEach((key,value) -> {
@@ -51,7 +51,9 @@ public class CourseServiceImpl implements CourseService {
                field.setAccessible(true);
                ReflectionUtils.setField(field, course.get(), value);
            });
-           return courseRepository.save(course.get());
+            Course courseSaved = courseRepository.save(course.get());
+            CourseDTO courseDTO =  this.mapper.map( courseSaved, CourseDTO.class);
+            return courseDTO;
         }
         else{
             throw new NotFoundException("Course not found");
