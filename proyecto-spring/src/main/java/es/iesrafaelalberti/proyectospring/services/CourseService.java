@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CourseService {
-    //Course updateVideo(Long id, MultipartFile file);
+    Course updateVideo(Long id, MultipartFile file);
 
     CourseDTO create(CourseCreateDTO courseCreateDTO, String username) ;
     List<CourseDTO> findAll();

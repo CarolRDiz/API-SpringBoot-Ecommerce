@@ -2,12 +2,16 @@ package es.iesrafaelalberti.proyectospring.controllers;
 
 import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
+import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Course;
 import es.iesrafaelalberti.proyectospring.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.Map;
@@ -29,6 +33,11 @@ public class CourseController {
     @PatchMapping(value = "/courses/{id}/")
     public Course update(@PathVariable Long id, @RequestBody Map<String, Object> fields){
         return courseService.updateCourseByFields(id, fields);
+        //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
+    }
+    @RequestMapping(path = "/courses/video/{id}/", method = PATCH, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Course updateVideo(@PathVariable Long id, @RequestParam("file") MultipartFile file, Model model){
+        return courseService.updateVideo(id, file);
         //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 

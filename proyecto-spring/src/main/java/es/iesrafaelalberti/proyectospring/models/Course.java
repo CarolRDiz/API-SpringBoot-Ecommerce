@@ -22,6 +22,7 @@ public class Course {
     private String title;
     private String subtitle;
     private String description;
+    private String video_id;
     private String requirements;
     private Set<String> teaches = new HashSet<>();
     private Set<String> includes = new HashSet<>();

@@ -3,17 +3,23 @@ package es.iesrafaelalberti.proyectospring.services.impl;
 import es.iesrafaelalberti.proyectospring.dto.CourseCreateDTO;
 import es.iesrafaelalberti.proyectospring.dto.CourseDTO;
 import es.iesrafaelalberti.proyectospring.exceptions.NotFoundException;
+import es.iesrafaelalberti.proyectospring.models.Chapter;
 import es.iesrafaelalberti.proyectospring.models.Course;
 import es.iesrafaelalberti.proyectospring.models.Users;
 import es.iesrafaelalberti.proyectospring.repositories.CourseRepository;
 import es.iesrafaelalberti.proyectospring.repositories.UsersRepository;
 import es.iesrafaelalberti.proyectospring.services.CourseService;
+import es.iesrafaelalberti.proyectospring.services.VideoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +32,10 @@ public class CourseServiceImpl implements CourseService {
     CourseRepository courseRepository;
     @Autowired
     UsersRepository usersRepository;
+    @Autowired
+    VideoService videoService;
+    @Autowired
+    private GridFsTemplate gridFsTemplate;
 
     private ModelMapper mapper = new ModelMapper();
 
@@ -44,20 +54,28 @@ public class CourseServiceImpl implements CourseService {
             throw new NotFoundException("Course not found");
         }
     }
-    /*
     @Override
     public Course updateVideo(Long id, MultipartFile file){
         Optional<Course> course = courseRepository.findById(id);
         if(course.isPresent()){
-
-            return courseRepository.save(course.get());
+            try {
+                //Borra el video anterior
+                gridFsTemplate.delete(new Query(Criteria.where("_id").is(course.get().getVideo_id())));
+                //Guarda el nuevo vídeo y obtiene su id
+                String video_id = videoService.addVideo( course.get().getTitle(), file);
+                //Lo introduce en el chapter
+                Field field = ReflectionUtils.findField(Course.class, "video_id");
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, course.get(), video_id);
+                return courseRepository.save(course.get());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         else{
-            throw new NotFoundException("Course not found");
+            throw new NotFoundException("Chapter not found");
         }
     }
-
-     */
 
     @Override
     public CourseDTO create(CourseCreateDTO newCourse, String username){

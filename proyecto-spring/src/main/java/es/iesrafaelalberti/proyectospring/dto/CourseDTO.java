@@ -15,4 +15,5 @@ public class CourseDTO {
     private String title;
     private Users author;
     private boolean enabled;
+    private String video_id;
 }
