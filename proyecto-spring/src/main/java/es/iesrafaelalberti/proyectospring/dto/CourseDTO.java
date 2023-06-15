@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,4 +20,6 @@ public class CourseDTO {
     private boolean enabled;
     private String video_id;
     private String image_id;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

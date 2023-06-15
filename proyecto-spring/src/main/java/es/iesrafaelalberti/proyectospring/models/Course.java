@@ -6,7 +6,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +32,13 @@ public class Course {
     private Set<String> teaches = new HashSet<>();
     private Set<String> includes = new HashSet<>();
     private Integer price;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     private boolean enabled = false;
 
     //TODO

@@ -30,6 +30,16 @@ public class CourseController {
         return new ResponseEntity<>(courseService.create(newCourse, username), HttpStatus.CREATED);
         //return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
+    @GetMapping("/courses/{id}/")
+    public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(courseService.findById(id),HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @PatchMapping(value = "/courses/{id}/")
     public Course update(@PathVariable Long id, @RequestBody Map<String, Object> fields){
         return courseService.updateCourseByFields(id, fields);
